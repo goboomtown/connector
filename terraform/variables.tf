@@ -1,6 +1,21 @@
-variable "project" { }
+variable "appname" {
+  default = "app"
+}
 
-variable "credentials_file" { }
+variable "github_token" {
+}
+
+variable "project" {
+}
+
+variable "personal_project" {
+}
+
+variable "boomtown_project" {
+}
+
+variable "credentials_file" {
+}
 
 variable "region" {
   default = "us-east4"

@@ -22,24 +22,29 @@ provider "google" {
   project = var.project
 }
 
+
+module "connector" {
+  source = "github.com/goboomtown/example-connector-transactions-ts.git"
+}
+
 data "github_user" "current" {
   username = "lborsato"
 }
+
+provider "github" {
+  owner = "goboomtown"
+  token = var.github_token
+}
+
 
 resource "github_repository" "connector" {
   name         = "connector"
   description  = "Connector Example"
 
   visibility = "public"
-
-  template {
-    owner      = "goboomtown"
-    repository = "example-connector-transactions-ts"
-  }
-
 }
 
-resource "github_branch" "development" {
+resource "github_branch" "master" {
   repository = "connector"
   branch     = var.branch_name
 }
@@ -101,7 +106,7 @@ resource "google_project_service" "run_api" {
 
 # Create the Cloud Run service
 resource "google_cloud_run_service" "run_service" {
-  name = "app"
+  name = var.appname
   location = var.region
 
   template {
