@@ -5,7 +5,6 @@ import { RegistrationService } from './services/registration/registration.servic
 
 @Injectable()
 export class AppService implements OnApplicationBootstrap {
-
   private readonly logger = new Logger(AppService.name);
 
   private baseUrl: string;
@@ -30,7 +29,6 @@ export class AppService implements OnApplicationBootstrap {
       this.registrationService.setUrlToRegister(this.baseUrl);
       const response$ = await this.registrationService.register();
       response$.subscribe((response) => {
-
         this.logger.log('=== Connector Registration Response ===');
         this.logger.log(`statusCode: ${response.status}`);
         this.logger.log(response.data);
@@ -48,8 +46,6 @@ export class AppService implements OnApplicationBootstrap {
     object: string | string[] | undefined,
     object_id: string | string[] | undefined,
   ): string {
-
-
     // let html = '<h2>Last Three Transactions for ' + this.customer.id + ':</h2>';
     let html = '';
     if (object != undefined && object_id != undefined) {
