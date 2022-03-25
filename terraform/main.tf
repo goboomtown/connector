@@ -82,51 +82,13 @@ resource "google_cloudbuild_trigger" "cloud_build_trigger" {
   # These substitutions have been defined in the sample app's cloudbuild.yaml file.
   # See: https://github.com/gruntwork-io/sample-app-docker/blob/master/cloudbuild.yaml#L40
   substitutions = {
-    _GCR_REGION           = var.gcr_region
-    _GKE_CLUSTER_LOCATION = var.location
-    _GKE_CLUSTER_NAME     = var.cluster_name
+    _GCR_REGION = var.region
   }
 
   # The filename argument instructs Cloud Build to look for a file in the root of the repository.
   # Either a filename or build template (below) must be provided.
   filename = "cloudbuild.yaml"
-
-  # Remove the filename and substitutions arguments above and uncomment the code below if you'd prefer to define your
-  # build steps in Terraform code.
-  # build {
-  #   # install the app dependencies
-  #   step {
-  #     name = "gcr.io/cloud-builders/npm"
-  #     args = ["install"]
-  #   }
-  #
-  #   # execute the tests
-  #   step {
-  #     name = "gcr.io/cloud-builders/npm"
-  #     args = ["run", "test"]
-  #   }
-  #
-  #   # build an artifact using the docker builder
-  #   step {
-  #     name = "gcr.io/cloud-builders/docker"
-  #     args = ["build", "--build-arg", "NODE_ENV=production", "-t", "gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA", "."]
-  #   }
-  #
-  #   # push the artifact to a GCR repository
-  #   step {
-  #     name = "gcr.io/cloud-builders/docker"
-  #     args = ["push", "${var.gcr_region}.gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA"]
-  #   }
-  #
-  #   # deploy the app to a GKE cluster using the `gke-deploy` builder and expose it
-  #   # using a load balancer on port 80.
-  #   # https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gke-deploy
-  #   step {
-  #     name = "gcr.io/cloud-builders/gke-deploy"
-  #     args = ["run", "--image=${var.gcr_region}.gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA", "--location", "${var.location}", "--cluster", "${var.cluster_name}", "--expose", "80"]
-  #   }
-  # }
-
+  
   depends_on = [github_repository.connector]
 }
 
